@@ -28,12 +28,15 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-// mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
-mongoose.connect("mongodb://localhost/NewsScraper", { useNewUrlParser: true });
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/NewsScraper";
+
+mongoose.connect(MONGODB_URI);
+
+//mongoose.connect("mongodb://localhost/NewsScraper", { useNewUrlParser: true });
 
 // Routes
 
-// A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://pitchfork.com/").then(function(response) {
@@ -44,23 +47,16 @@ app.get("/scrape", function(req, res) {
     $("div.article-details.module__article-details").each(function(i, element) {
       // Save an empty result object
       var result = {};
-      // result.title = $(element)
-      //   .children("a")
-      //   .text();
-      // result.link = $(element)
-      //   .children("a")
-      //   .attr("href");
-      // console.log(title, link);
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
-        .children("h2.title.module__title")
+        .children("a")
         .text();
       result.link = $(this)
         .children("a")
         .attr("href");
-        console.log(`Title: ${result.title}`)
 
+      console.log(`Title: ${result.title}`);
 
       db.Article.create(result)
         .then(function(data) {
@@ -69,24 +65,11 @@ app.get("/scrape", function(req, res) {
         .catch(function(err) {
           return res.json(err);
         });
-      // });
-//    Article.insert({
-// title: title,
-// link: link
-//    },
-//    function (err, inserted) {
-//      if (err) {
-//        console.log(err)
-//      } else {
-//        console.log(inserted)
-//      }
-//    })
-    
+    });
+
+    // Send a message to the client
+    res.send("Scrape Complete");
   });
-  
-});
- // Send a message to the client
- res.send("Scrape Complete");
 });
 
 // Route for getting all Articles from the db
