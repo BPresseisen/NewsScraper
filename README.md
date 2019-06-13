@@ -21,6 +21,38 @@ Welcome to mLab.  Your new subscription is being created and will be available s
 Created mongolab-slippery-57465 as MONGOLAB_MAUVE_URI
 Use heroku addons:docs mongolab to view documentation
 
+Later on, I tried to deploy by inputting: "Git Push Heroku Master"
+
+The Heroku process began and even completed successfully (or so I thought per the output below)
+==
+
+remote: -----> Build
+remote:        
+remote: -----> Caching build
+remote:        - node_modules
+remote:        
+remote: -----> Pruning devDependencies
+remote:        audited 213 packages in 1.084s
+remote:        found 0 vulnerabilities
+remote:        
+remote:        
+remote: -----> Build succeeded!
+remote: -----> Discovering process types
+remote:        Procfile declares types     -> (none)
+remote:        Default types for buildpack -> web
+remote: 
+remote: -----> Compressing...
+remote:        Done: 21.7M
+remote: -----> Launching...
+remote:        Released v7
+remote:        https://pitchforkarticlesscraper.herokuapp.com/ deployed to Heroku
+remote: 
+remote: Verifying deploy... done.
+To https://git.heroku.com/pitchforkarticlesscraper.git
+ * [new branch]      master -> master
+admins-MacBook-Pro:NewsScraper benjamzino$ 
+
+
 But when attemnpting to load in the browser (Chrome), it did not deploy successfully.
 
 As such, only a http://localhost:3000/ succeeds once mongod is launched from the terminal on the directory where the contents of this repository are cloned.
